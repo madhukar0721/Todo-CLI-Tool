@@ -1,0 +1,16 @@
+{
+    "name": "todo-cli",
+    "version": "1.0.0",
+    "description": "A CLI for managing todos",
+    "main": "todo.js",
+    "scripts": {
+      "start": "node todo.js"
+    },
+    "bin": {
+      "todo": "./todo.js"
+    },
+    "dependencies": {
+      "commander": "^10.0.0",
+      "fs-extra": "^11.0.0"
+    }
+  }
