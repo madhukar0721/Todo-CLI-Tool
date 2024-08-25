@@ -6,7 +6,8 @@ const path = require("path");
 
 const program = new Command();
 
-const FILE_PATH = path.join(__dirname, "todos.json"); 
+const FILE_PATH = path.join(__dirname, "todos.json");
+
 const fetchTodos = () => {
   if (fs.existsSync(FILE_PATH)) {
     return fs.readJsonSync(FILE_PATH);
@@ -21,17 +22,17 @@ const saveTodos = (todos) => {
 
 program
   .command("add <task>")
-  .description("Add todo")
+  .description("Add a new todo")
   .action((task) => {
     const todos = fetchTodos();
     todos.push({ task, done: false });
     saveTodos(todos);
-    console.log(`${task} added to Todos`);
+    console.log(`"${task}" added to Todos`);
   });
 
 program
   .command("done <task>")
-  .description("Delete todo")
+  .description("Mark a todo as done")
   .action((task) => {
     let todos = fetchTodos();
     const index = todos.findIndex((todo) => todo.task === task);
@@ -46,45 +47,42 @@ program
 
 program
   .command("delete <task>")
-  .description("Delete todo")
+  .description("Delete a todo")
   .action((task) => {
     let todos = fetchTodos();
     const index = todos.findIndex((todo) => todo.task === task);
 
     if (index !== -1) {
-      todos.splice(index, 1); 
+      todos.splice(index, 1);
       saveTodos(todos);
       console.log(`Deleted todo: "${task}"`);
     } else {
       console.log(`Todo not found: "${task}"`);
     }
-    saveTodos(todos);
-    console.log(`${task} deleted from Todos`);
   });
 
 program
   .command("delete-all <task>")
-  .description("Delete todo")
+  .description("Delete all todos with the specified task")
   .action((task) => {
     let todos = fetchTodos();
     todos = todos.filter((todo) => todo.task !== task);
     saveTodos(todos);
-    console.log(`Deleted all ${task} from Todos`);
-  });
-
-  program
-  .command("delete-all-todos")
-  .description("Delete all todos")
-  .action((task) => {
-    let todos = [];
-    saveTodos(todos);
-    console.log(`Deleted all ${task} from Todos`);
+    console.log(`Deleted all todos with task "${task}"`);
   });
 
 program
-  .command("show todos")
-  .description("Show todo")
-  .action((task) => {
+  .command("delete-all-todos")
+  .description("Delete all todos")
+  .action(() => {
+    saveTodos([]);
+    console.log("Deleted all todos");
+  });
+
+program
+  .command("show")
+  .description("Show all todos")
+  .action(() => {
     const todos = fetchTodos();
     if (todos.length === 0) {
       console.log("No todos found.");
@@ -97,5 +95,4 @@ program
     }
   });
 
-program.parse();
-	
+program.parse(process.argv);
