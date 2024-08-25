@@ -52,7 +52,7 @@ This is a simple command-line interface (CLI) tool for managing todos. You can a
 ```
 6. **Delete all Todos**
 ```
-   todo delete-all-todo
+   todo delete-all-todos
 ```
 7. **Show all todos**
 ```
